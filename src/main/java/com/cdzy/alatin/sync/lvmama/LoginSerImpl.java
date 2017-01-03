@@ -24,9 +24,9 @@ import com.cdzy.alatin.sync.tools.SyncAckHeaderUtil;
 import com.cdzy.alatin.sync.tools.SyncTools;
 
 @Site(id = SiteInfo.SITE_ID, verifyCode = true, name = SiteInfo.SITE_NAME)
-public class LoginServiceImpl extends LoginServiceBase implements LoginService {
+public class LoginSerImpl extends LoginServiceBase implements LoginService {
 
-    private final static Logger logger = LoggerFactory.getLogger(LoginServiceImpl.class);
+    private final static Logger logger = LoggerFactory.getLogger(LoginSerImpl.class);
 
     @Override
     public LoginBeforeReturn loginBefore(SyncSession session) {

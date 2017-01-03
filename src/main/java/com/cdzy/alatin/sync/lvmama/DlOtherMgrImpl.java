@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,20 +40,18 @@ import com.cdzy.alatin.sync.entities.download.other.DlToCitysReq;
 import com.cdzy.alatin.sync.entities.download.other.DlToCitysRes;
 import com.cdzy.alatin.sync.entities.download.other.DlWayCitysReq;
 import com.cdzy.alatin.sync.entities.download.other.DlWayCitysRes;
+import com.cdzy.alatin.sync.lvmama.service.impl.DlOtherSerImpl;
 import com.cdzy.alatin.sync.svc_api.DownloadOtherMgr;
-import com.cdzy.alatin.sync.tools.ChineseToPinYin;
-import com.cdzy.alatin.sync.tools.HttpUtil;
 import com.cdzy.alatin.sync.tools.SyncAckHeaderUtil;
-import com.cdzy.alatin.sync.tools.SyncTools;
 
 /**
- * 金熊猫下载其它
+ * 驴妈妈下载其它
  */
-public class DownloadOtherMgrImpl implements DownloadOtherMgr {
-    private static final Logger logger = LoggerFactory.getLogger(DownloadOtherMgrImpl.class);
+public class DlOtherMgrImpl implements DownloadOtherMgr {
+    private static final Logger logger = LoggerFactory.getLogger(DlOtherMgrImpl.class);
 
-    private LoginServiceImpl jinxiongmaoLoginService = new LoginServiceImpl();
-    private DownloadOtherServiceImpl downloadOtherService = new DownloadOtherServiceImpl();
+    private LoginSerImpl loginSer = new LoginSerImpl();
+    private DlOtherSerImpl dlOtherSer = new DlOtherSerImpl();
 
     /**
      * 下载出发城市
@@ -75,7 +70,7 @@ public class DownloadOtherMgrImpl implements DownloadOtherMgr {
         dlFromCitysRes.setDownCities(downCities);
         dlFromCitysRes.setIsLast(1);
         dlFromCitysRes.setDownTime(new Date());
-        if (!jinxiongmaoLoginService.checkLoginStatus(session).equals(SyncStatus.OK)) {
+        if (!loginSer.checkLoginStatus(session).equals(SyncStatus.OK)) {
             SyncAckHeaderUtil.setSesTimeout(syncMsgAckHeader, "账号登录已失效，请重新登录", logger, true);
             return dlFromCitysRes;
         }
@@ -100,7 +95,7 @@ public class DownloadOtherMgrImpl implements DownloadOtherMgr {
         dlToCitysRes.setDownTime(new Date());
         List<DownCity> downCities = new ArrayList<DownCity>();
         dlToCitysRes.setDownCities(downCities);
-        if (!jinxiongmaoLoginService.checkLoginStatus(session).equals(SyncStatus.OK)) {
+        if (!loginSer.checkLoginStatus(session).equals(SyncStatus.OK)) {
             SyncAckHeaderUtil.setSesTimeout(syncMsgAckHeader, "账号登录已失效，请重新登录", logger, true);
             return dlToCitysRes;
         }
@@ -127,7 +122,7 @@ public class DownloadOtherMgrImpl implements DownloadOtherMgr {
         dlDaysFromCitysRes.setDownCities(downCities);
         dlDaysFromCitysRes.setIsLast(1);
         dlDaysFromCitysRes.setDownTime(new Date());
-        if (!jinxiongmaoLoginService.checkLoginStatus(session).equals(SyncStatus.OK)) {
+        if (!loginSer.checkLoginStatus(session).equals(SyncStatus.OK)) {
             SyncAckHeaderUtil.setSesTimeout(syncMsgAckHeader, "账号登录已失效，请重新登录", logger, true);
             return dlDaysFromCitysRes;
         }
@@ -152,7 +147,7 @@ public class DownloadOtherMgrImpl implements DownloadOtherMgr {
         dlDaysToCitysRes.setDownCities(downCities);
         dlDaysToCitysRes.setIsLast(1);
         dlDaysToCitysRes.setDownTime(new Date());
-        if (!jinxiongmaoLoginService.checkLoginStatus(session).equals(SyncStatus.OK)) {
+        if (!loginSer.checkLoginStatus(session).equals(SyncStatus.OK)) {
             SyncAckHeaderUtil.setSesTimeout(syncMsgAckHeader, "账号登录已失效，请重新登录", logger, true);
             return dlDaysToCitysRes;
         }
@@ -177,7 +172,7 @@ public class DownloadOtherMgrImpl implements DownloadOtherMgr {
         dlSpotsRes.setDownSpots(downSpots);
         dlSpotsRes.setIsLast(1);
         dlSpotsRes.setDownTime(new Date());
-        if (!jinxiongmaoLoginService.checkLoginStatus(session).equals(SyncStatus.OK)) {
+        if (!loginSer.checkLoginStatus(session).equals(SyncStatus.OK)) {
             SyncAckHeaderUtil.setSesTimeout(syncMsgAckHeader, "账号登录已失效，请重新登录", logger, true);
             return dlSpotsRes;
         }
@@ -202,7 +197,7 @@ public class DownloadOtherMgrImpl implements DownloadOtherMgr {
         dlDaysSpotsRes.setDownSpots(downSpots);
         dlDaysSpotsRes.setIsLast(1);
         dlDaysSpotsRes.setDownTime(new Date());
-        if (!jinxiongmaoLoginService.checkLoginStatus(session).equals(SyncStatus.OK)) {
+        if (!loginSer.checkLoginStatus(session).equals(SyncStatus.OK)) {
             SyncAckHeaderUtil.setSesTimeout(syncMsgAckHeader, "账号登录已失效，请重新登录", logger, true);
             return dlDaysSpotsRes;
         }
@@ -224,11 +219,11 @@ public class DownloadOtherMgrImpl implements DownloadOtherMgr {
     public DlAllowLineTypeRes dlAllowLineType(SyncSession session, SyncMsgHeader syncMsgHeader, SyncMsgAckHeader syncMsgAckHeader, DlAllowLineTypeReq dlAllowLineTypeReq) {
         SyncAckHeaderUtil.copySyncMsgHeader(syncMsgHeader, syncMsgAckHeader);
         DlAllowLineTypeRes dlAllowLineTypeRes = new DlAllowLineTypeRes();
-        if (!jinxiongmaoLoginService.checkLoginStatus(session).equals(SyncStatus.OK)) {
+        if (!loginSer.checkLoginStatus(session).equals(SyncStatus.OK)) {
             SyncAckHeaderUtil.setSesTimeout(syncMsgAckHeader, "账号登录已失效，请重新登录", logger, true);
             return dlAllowLineTypeRes;
         }
-        String routeType = downloadOtherService.getCanPublishRouteType(session, syncMsgAckHeader);
+        String routeType = dlOtherSer.getCanPublishRouteType(session, syncMsgAckHeader);
         SyncAckHeaderUtil.setSuccess(syncMsgAckHeader, "下载账号允许发布的线路类型成功", logger, true);
         dlAllowLineTypeRes.setRouteType(routeType);
         return dlAllowLineTypeRes;
@@ -251,7 +246,7 @@ public class DownloadOtherMgrImpl implements DownloadOtherMgr {
         dlLineRes.setDownTime(new Date());
         List<DownLine> downLines = new ArrayList<DownLine>();
         dlLineRes.setDownLines(downLines);
-        if (!jinxiongmaoLoginService.checkLoginStatus(session).equals(SyncStatus.OK)) {
+        if (!loginSer.checkLoginStatus(session).equals(SyncStatus.OK)) {
             SyncAckHeaderUtil.setSesTimeout(syncMsgAckHeader, "账号登录已失效，请重新登录", logger, true);
             return dlLineRes;
         }
@@ -275,7 +270,7 @@ public class DownloadOtherMgrImpl implements DownloadOtherMgr {
         dlWayCitysRes.setDownTime(new Date());
         List<DownCity> downCities = new ArrayList<DownCity>();
         dlWayCitysRes.setDownCities(downCities);
-        if (!jinxiongmaoLoginService.checkLoginStatus(session).equals(SyncStatus.OK)) {
+        if (!loginSer.checkLoginStatus(session).equals(SyncStatus.OK)) {
             SyncAckHeaderUtil.setSesTimeout(syncMsgAckHeader, "账号登录已失效，请重新登录", logger, true);
             return dlWayCitysRes;
         }
@@ -304,7 +299,7 @@ public class DownloadOtherMgrImpl implements DownloadOtherMgr {
         List<SingleData> singleDatas = new ArrayList<SingleData>();
         downSLayerSpec.setSingleDatas(singleDatas);
         downSLayerSpec.setMenuId(3440);
-        if (!jinxiongmaoLoginService.checkLoginStatus(session).equals(SyncStatus.OK)) {
+        if (!loginSer.checkLoginStatus(session).equals(SyncStatus.OK)) {
             SyncAckHeaderUtil.setSesTimeout(syncMsgAckHeader, "账号登录已失效，请重新登录", logger, true);
             return dlSLayerSpecRes;
         }
@@ -346,7 +341,7 @@ public class DownloadOtherMgrImpl implements DownloadOtherMgr {
         dlMLayerSpecRes.setDownTime(new Date());
         List<DownMLayerSpec> downMLayerSpecs = new ArrayList<DownMLayerSpec>();
         dlMLayerSpecRes.setDownMLayerSpecs(downMLayerSpecs);
-        if (!jinxiongmaoLoginService.checkLoginStatus(session).equals(SyncStatus.OK)) {
+        if (!loginSer.checkLoginStatus(session).equals(SyncStatus.OK)) {
             SyncAckHeaderUtil.setSesTimeout(syncMsgAckHeader, "账号登录已失效，请重新登录", logger, true);
             return dlMLayerSpecRes;
         }

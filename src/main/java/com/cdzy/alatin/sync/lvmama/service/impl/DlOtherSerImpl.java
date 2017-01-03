@@ -1,9 +1,9 @@
-package com.cdzy.alatin.sync.lvmama;
+package com.cdzy.alatin.sync.lvmama.service.impl;
 
 import com.cdzy.alatin.sync.SyncMsgAckHeader;
 import com.cdzy.alatin.sync.SyncSession;
 
-public class DownloadOtherServiceImpl {
+public class DlOtherSerImpl {
 
     /**
      * 获取允许发布的线路类型

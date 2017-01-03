@@ -38,7 +38,7 @@ public class LoginServiceTest {
     public void loginTest() {
         SyncSession session = null;
 
-        LoginServiceImpl loginService = new LoginServiceImpl();
+        LoginSerImpl loginService = new LoginSerImpl();
 
         String username = null;
         String password = null;
@@ -109,7 +109,7 @@ public class LoginServiceTest {
     @Test
     public void checkLoginStatusTest() {
         SyncSession session = new TestSession();
-        LoginServiceImpl loginService = new LoginServiceImpl();
+        LoginSerImpl loginService = new LoginSerImpl();
         SyncMsgAckHeader syncMsgAckHeader = SyncAckHeaderUtil.createSyncMsgAckHeader(session, 0);
         UploadImg.GetVerifyimage(session, syncMsgAckHeader, SiteInfo.URL_GET_VERIFY_CODE());
         String verifyCode = "";
@@ -126,7 +126,7 @@ public class LoginServiceTest {
     @Test
     public void logoffTest() {
         SyncSession session = new TestSession();
-        LoginServiceImpl loginService = new LoginServiceImpl();
+        LoginSerImpl loginService = new LoginSerImpl();
         SyncMsgAckHeader syncMsgAckHeader = SyncAckHeaderUtil.createSyncMsgAckHeader(session, 0);
         UploadImg.GetVerifyimage(session, syncMsgAckHeader, SiteInfo.URL_GET_VERIFY_CODE());
         String verifyCode = "";

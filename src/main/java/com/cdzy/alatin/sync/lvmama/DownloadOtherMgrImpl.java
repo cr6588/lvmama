@@ -228,9 +228,9 @@ public class DownloadOtherMgrImpl implements DownloadOtherMgr {
             SyncAckHeaderUtil.setSesTimeout(syncMsgAckHeader, "账号登录已失效，请重新登录", logger, true);
             return dlAllowLineTypeRes;
         }
-//        String routeType = downloadOtherService.getCanPublishRouteType(session, syncMsgAckHeader);
+        String routeType = downloadOtherService.getCanPublishRouteType(session, syncMsgAckHeader);
         SyncAckHeaderUtil.setSuccess(syncMsgAckHeader, "下载账号允许发布的线路类型成功", logger, true);
-//        dlAllowLineTypeRes.setRouteType(routeType);
+        dlAllowLineTypeRes.setRouteType(routeType);
         return dlAllowLineTypeRes;
     }
 

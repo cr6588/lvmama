@@ -26,7 +26,6 @@ public class DlOtherSerImpl {
      */
     public String getCanPublishRouteType(SyncSession session, SyncMsgAckHeader syncMsgAckHeader) throws Exception {
         String routeType = "";
-        System.out.println(JSON.toJSONString(session.getCookies()));
         String res = dlOtherHttp.showAddProduct(session);
         Elements productTypes = Jsoup.parse(res).select("select[name=\"productType\"] option");
         

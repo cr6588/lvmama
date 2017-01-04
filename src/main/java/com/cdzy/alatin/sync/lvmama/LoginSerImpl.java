@@ -87,7 +87,7 @@ public class LoginSerImpl extends LoginServiceBase implements LoginService {
         SyncTools.printInfoLog(logger, SyncAckHeaderUtil.createSyncMsgAckHeader(session, 0), "检查登录状态");
         String res = null;
         try {
-            res = HttpUtil.getPostHttpResStr(session, SiteInfo.URL_CHECK_LOGIN, false, null);
+            res = HttpUtil.getGetHttpResStr(session, SiteInfo.URL_CHECK_LOGIN, false, null);
             if (null != res && !"".equals(res.trim())) {
                 Document document = Jsoup.parse(res);
                 if (null != document.select("form") && document.select("form").get(0).attr("action").contains("change_pwd")) {

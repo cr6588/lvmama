@@ -223,8 +223,13 @@ public class DlOtherMgrImpl implements DownloadOtherMgr {
             SyncAckHeaderUtil.setSesTimeout(syncMsgAckHeader, "账号登录已失效，请重新登录", logger, true);
             return dlAllowLineTypeRes;
         }
-        String routeType = dlOtherSer.getCanPublishRouteType(session, syncMsgAckHeader);
-        SyncAckHeaderUtil.setSuccess(syncMsgAckHeader, "下载账号允许发布的线路类型成功", logger, true);
+        String routeType = null;
+        try {
+            routeType = dlOtherSer.getCanPublishRouteType(session, syncMsgAckHeader);
+            SyncAckHeaderUtil.setSuccess(syncMsgAckHeader, "下载账号允许发布的线路类型成功", logger, true);
+        } catch (Exception e) {
+            SyncAckHeaderUtil.setNetError(syncMsgAckHeader, "下载账号允许发布的线路类型失败", logger, e);
+        }
         dlAllowLineTypeRes.setRouteType(routeType);
         return dlAllowLineTypeRes;
     }

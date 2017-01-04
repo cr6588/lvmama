@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 一个mapper节点只有一个，namespace对应一个接口完整名称 -->
+<mapper namespace="com.cdzy.alatin.sync.lvmama.http.DlOtherHttp" >
+    <http id="showAddProduct">
+        <url><![CDATA[http://ebooking.lvmama.com/vst_ebooking/ebooking/dujia/group/prod/showAddProduct.do]]></url>
+        <method>GET</method>
+    </http>
+</mapper>

@@ -38,7 +38,7 @@ public class LoginServiceTest {
     public void loginTest() {
         SyncSession session = null;
 
-        LoginServiceImpl loginService = new LoginServiceImpl();
+        LoginSerImpl loginService = new LoginSerImpl();
 
         String username = null;
         String password = null;
@@ -109,24 +109,24 @@ public class LoginServiceTest {
     @Test
     public void checkLoginStatusTest() {
         SyncSession session = new TestSession();
-        LoginServiceImpl loginService = new LoginServiceImpl();
+        LoginSerImpl loginService = new LoginSerImpl();
         SyncMsgAckHeader syncMsgAckHeader = SyncAckHeaderUtil.createSyncMsgAckHeader(session, 0);
+        Assert.assertEquals(SyncStatus.SES_TIMEOUT, loginService.checkLoginStatus(session));                //未登陆
         UploadImg.GetVerifyimage(session, syncMsgAckHeader, SiteInfo.URL_GET_VERIFY_CODE());
         String verifyCode = "";
         Scanner scanner = new Scanner(System.in);
         System.out.println("请输入验证码：");
         verifyCode = scanner.next();
         scanner.close();
-//        Assert.assertEquals(SyncStatus.SES_TIMEOUT, loginService.checkLoginStatus(session));                //未登陆
         LoginReturn loginReturn =  loginService.login(session, "CDCJ-HYJQ", "hyjq@666", verifyCode, null);
-//        Assert.assertEquals(SyncStatus.OK, loginReturn.getStatus());
-//        Assert.assertEquals(SyncStatus.OK, loginService.checkLoginStatus(session));                          //已登陆
+        Assert.assertEquals(SyncStatus.OK, loginReturn.getStatus());
+        Assert.assertEquals(SyncStatus.OK, loginService.checkLoginStatus(session));                          //已登陆
     }
 
     @Test
     public void logoffTest() {
         SyncSession session = new TestSession();
-        LoginServiceImpl loginService = new LoginServiceImpl();
+        LoginSerImpl loginService = new LoginSerImpl();
         SyncMsgAckHeader syncMsgAckHeader = SyncAckHeaderUtil.createSyncMsgAckHeader(session, 0);
         UploadImg.GetVerifyimage(session, syncMsgAckHeader, SiteInfo.URL_GET_VERIFY_CODE());
         String verifyCode = "";

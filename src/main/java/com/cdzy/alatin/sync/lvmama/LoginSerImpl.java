@@ -24,9 +24,9 @@ import com.cdzy.alatin.sync.tools.SyncAckHeaderUtil;
 import com.cdzy.alatin.sync.tools.SyncTools;
 
 @Site(id = SiteInfo.SITE_ID, verifyCode = true, name = SiteInfo.SITE_NAME)
-public class LoginServiceImpl extends LoginServiceBase implements LoginService {
+public class LoginSerImpl extends LoginServiceBase implements LoginService {
 
-    private final static Logger logger = LoggerFactory.getLogger(LoginServiceImpl.class);
+    private final static Logger logger = LoggerFactory.getLogger(LoginSerImpl.class);
 
     @Override
     public LoginBeforeReturn loginBefore(SyncSession session) {
@@ -87,7 +87,7 @@ public class LoginServiceImpl extends LoginServiceBase implements LoginService {
         SyncTools.printInfoLog(logger, SyncAckHeaderUtil.createSyncMsgAckHeader(session, 0), "检查登录状态");
         String res = null;
         try {
-            res = HttpUtil.getPostHttpResStr(session, SiteInfo.URL_CHECK_LOGIN, false, null);
+            res = HttpUtil.getGetHttpResStr(session, SiteInfo.URL_CHECK_LOGIN, false, null);
             if (null != res && !"".equals(res.trim())) {
                 Document document = Jsoup.parse(res);
                 if (null != document.select("form") && document.select("form").get(0).attr("action").contains("change_pwd")) {

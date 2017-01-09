@@ -2,3 +2,5 @@
 !target/dependency
 /.svn/
 /target/
+/src/test/java/com/cdzy/alatin/sync/lvmama/LoginServiceTest.java
+/src/test/resources/account.properties

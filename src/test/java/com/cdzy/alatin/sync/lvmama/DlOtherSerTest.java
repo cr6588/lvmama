@@ -10,7 +10,7 @@ import com.cdzy.alatin.sync.tools.cookie.CookieUtil;
 
 public class DlOtherSerTest {
 
-    SyncSession session = CookieUtil.readCookie("CDCJ-HYJQ", "hyjq@666", SiteInfo.URL_GET_VERIFY_CODE(), new LoginSerImpl());
+    SyncSession session = CookieUtil.readCookie(SiteInfo.URL_GET_VERIFY_CODE(), new LoginSerImpl());
 
     DlOtherSerImpl dlOtherSer = new DlOtherSerImpl();
 
